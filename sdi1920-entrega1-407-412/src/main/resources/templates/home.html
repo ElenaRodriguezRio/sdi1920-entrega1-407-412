@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+
+	<nav th:replace="fragments/nav" />
+
+	<div class="container" style="text-align: center">
+		<h2 th:text="#{welcome.message}"></h2>
+		<h3 th:text="#{privatePartWeb.message}">Bienvenido a tu zona privada</h3>
+		<p th:text="#{userAuthenticatedAs.message}">
+			Usuario Autenticado como :
+		</p>
+		<b sec:authentication="principal.username" th:inline="text"></b>
+		<p th:text="#{marksOfTheUser.message}">Notas del usuario</p>
+		
+	</div>
+
+	<footer th:replace="fragments/footer" />
+
+</body>
+</html>
