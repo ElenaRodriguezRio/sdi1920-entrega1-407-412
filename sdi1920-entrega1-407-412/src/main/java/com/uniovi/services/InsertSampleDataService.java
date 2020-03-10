@@ -23,8 +23,8 @@ public class InsertSampleDataService {
 		user1.setPassword("123456");
 		user1.setRole(rolesService.getRoles()[0]);
 		//Usuario admin (ROLE_ADMIN)
-		User user2 = new User("marta-administradora@uniovi.es", "Marta", "Almonte");
-		user2.setPassword("123456");
+		User user2 = new User("admin@email.com", "Marta", "Almonte");
+		user2.setPassword("admin");
 		user2.setRole(rolesService.getRoles()[1]);
 
 		
