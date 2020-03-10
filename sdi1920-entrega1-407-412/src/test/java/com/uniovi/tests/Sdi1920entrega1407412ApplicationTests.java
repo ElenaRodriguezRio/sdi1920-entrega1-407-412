@@ -3,6 +3,7 @@ package com.uniovi.tests;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -129,47 +130,88 @@ public class Sdi1920entrega1407412ApplicationTests {
 	// PR05. Inicio de sesión con datos válidos (administrador)
 	@Test
 	public void PR05() {
-		//Vamos al formulario de login.
+		// Vamos al formulario de login.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "admin@email.com" , "admin" );
-		//Comprobamos que entramos en la vista de listado de todos los usuarios del sistema
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
 		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
 	}
 
 	// PR06. Inicio de sesión con datos válidos (usuario estándar)
 	@Test
 	public void PR06() {
-		//Vamos al formulario de login.
+		// Vamos al formulario de login.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "pedro99@uniovi.es" , "123456" );
-		//Comprobamos que entramos en la vista de listado de todos los usuarios del sistema
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
 		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
 	}
 
-	// PR07. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos)
+	// PR07. Inicio de sesión con datos inválidos (usuario estándar, campo email y
+	// contraseña vacíos)
 	@Test
 	public void PR07() {
-		//Vamos al formulario de login.
+		// Vamos al formulario de login.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "" , "" );
-		//Comprobamos que entramos en la vista de listado de todos los usuarios del sistema
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "", "");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
 		PO_View.checkElement(driver, "text", "Identifícate");
 		PO_View.checkElement(driver, "text", "Login");
 	}
 
-	// PR08. Inicio de sesión con datos inválidos (usuario estándar, email existente pero contraseña incorrecta)
+	// PR08. Inicio de sesión con datos inválidos (usuario estándar, email existente
+	// pero contraseña incorrecta)
 	@Test
 	public void PR08() {
-		//Vamos al formulario de login.
+		// Vamos al formulario de login.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "pedro99@uniovi.es" , "holas" );
-		//Comprobamos que entramos en la vista de listado de todos los usuarios del sistema
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "holas");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
 		PO_View.checkElement(driver, "text", "Identifícate");
 		PO_View.checkElement(driver, "text", "Login");
+	}
+
+	// Casos de prueba 9-10: Desconexión de usuarios registrados //
+
+	// PR09. Clic en opción salir de sesión, comprobar que se redirige a página de
+	// inicio sesión
+	@Test
+	public void PR09() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		//Comprobamos que, dado que el usuario está autenticado, se ve el link de logout
+		Assert.assertTrue(PO_View.isVisibleElement(driver, "#logout_link"));
+		//Desconectarse
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		//Comprobar que nos encontramos en login
+		PO_View.checkElement(driver, "text", "Identifícate");
+		//Comprobar que, una vez salidos de sesión, no vemos el link de logout
+		Assert.assertFalse(PO_View.isPresentElement(driver, By.id("logout_link")));
+	}
+
+	// PR10. Comprobar que el botón inicio de sesión no está visible si el usuario
+	// no está autenticado
+	@Test
+	public void PR10() {
+		//Comprobar que, si no estamos autenticados, no vemos el link de logout
+		Assert.assertFalse(PO_View.isPresentElement(driver, By.id("logout_link")));
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Seguimos sin ver el link de logout
+		Assert.assertFalse(PO_View.isPresentElement(driver, By.id("logout_link")));
 	}
 
 	//// FIN DE CASOS DE PRUEBA ////

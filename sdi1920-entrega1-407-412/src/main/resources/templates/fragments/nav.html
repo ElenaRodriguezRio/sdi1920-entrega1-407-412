@@ -31,7 +31,7 @@
 						Identifícate
 					</a>
 				</li>
-				<li sec:authorize="isAuthenticated()">
+				<li id="logout_link" sec:authorize="isAuthenticated()">
 					<a href="/logout"> 
 						<span class="glyphicon glyphicon-log-out"></span> 
 						Desconectar
