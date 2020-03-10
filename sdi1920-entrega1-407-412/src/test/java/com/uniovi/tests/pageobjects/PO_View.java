@@ -2,6 +2,8 @@ package com.uniovi.tests.pageobjects;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -51,4 +53,30 @@ public class PO_View {
 		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, type, text, getTimeout());
 		return elementos;		
 	}
+	
+	
+	/**
+	 * Detecta si un elemento está presente o no
+	 * 
+	 * @param driver: apuntando al navegador abierto actualmente.
+	 * @return Se retorna true si el elemento está presente, y falso en caso contrario
+	 */
+	static public boolean isPresentElement(WebDriver driver, By locatorKey) {
+		try {
+			driver.findElement(locatorKey);
+			return true;
+		} catch(NoSuchElementException e) {
+			return false;
+		}
+	}
+	
+	/**
+	 * Detecta si un elemento está visible o no
+	 * @param driver: apuntando al navegador abierto actualmente.
+	 * @return Se retorna true si el elemento está visible, y falso en caso contrario
+	 */
+	static public boolean isVisibleElement(WebDriver driver, String locator) {
+		return driver.findElement(By.cssSelector(locator)).isDisplayed();
+	}
+	
 }
