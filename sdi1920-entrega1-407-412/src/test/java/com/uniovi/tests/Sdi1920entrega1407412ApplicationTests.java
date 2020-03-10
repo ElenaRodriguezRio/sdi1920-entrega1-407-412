@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
@@ -87,15 +88,15 @@ public class Sdi1920entrega1407412ApplicationTests {
 		// Rellenamos el formulario, dejando vacío el campo de email
 		PO_RegisterView.fillForm(driver, "", "Marta", "González", "holas", "hola");
 		PO_View.checkElement(driver, "text", "Regístrate como usuario");
-		
+
 		// Rellenamos el formulario, dejando vacío el campo de nombre
 		PO_RegisterView.fillForm(driver, "marta@uniovi.es", "", "González", "holas", "hola");
 		PO_View.checkElement(driver, "text", "Regístrate como usuario");
-		
+
 		// Rellenamos el formulario, dejando vacío el campo de apellido
 		PO_RegisterView.fillForm(driver, "marta@uniovi.es", "Marta", "", "holas", "hola");
 		PO_View.checkElement(driver, "text", "Regístrate como usuario");
-		
+
 	}
 
 	// PR03. Registro de usuario con datos inválidos (repetición de contraseña
@@ -111,7 +112,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
 	}
 
-	// PR01. Registro de usuario con datos inválidos (email existente)
+	// PR04. Registro de usuario con datos inválidos (email existente)
 	@Test
 	public void PR04() {
 		// Vamos al formulario de registro
@@ -122,5 +123,55 @@ public class Sdi1920entrega1407412ApplicationTests {
 		// Comprobamos el error de email repetido.
 		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
 	}
+
+	// Casos de prueba 5-8: Identificación de usuario (Login) //
+
+	// PR05. Inicio de sesión con datos válidos (administrador)
+	@Test
+	public void PR05() {
+		//Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "admin@email.com" , "admin" );
+		//Comprobamos que entramos en la vista de listado de todos los usuarios del sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+	}
+
+	// PR06. Inicio de sesión con datos válidos (usuario estándar)
+	@Test
+	public void PR06() {
+		//Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es" , "123456" );
+		//Comprobamos que entramos en la vista de listado de todos los usuarios del sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+	}
+
+	// PR07. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos)
+	@Test
+	public void PR07() {
+		//Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "" , "" );
+		//Comprobamos que entramos en la vista de listado de todos los usuarios del sistema
+		PO_View.checkElement(driver, "text", "Identifícate");
+		PO_View.checkElement(driver, "text", "Login");
+	}
+
+	// PR08. Inicio de sesión con datos inválidos (usuario estándar, email existente pero contraseña incorrecta)
+	@Test
+	public void PR08() {
+		//Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es" , "holas" );
+		//Comprobamos que entramos en la vista de listado de todos los usuarios del sistema
+		PO_View.checkElement(driver, "text", "Identifícate");
+		PO_View.checkElement(driver, "text", "Login");
+	}
+
+	//// FIN DE CASOS DE PRUEBA ////
 
 }
