@@ -16,8 +16,19 @@
 					data-toggle="dropdown" href="#" th:text="#{appName.message}">
 						My Social Network <span class="caret"></span>
 				</a></li>
-				
+				<li id="users-menu" class="dropdown"
+					sec:authorize="isAuthenticated()"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#"
+					th:text="#{userManagement.message}"> Gestión de Usuarios <span
+						class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/user/list" th:text="#{listUsers.message}">Ver
+								Usuarios</a></li>
+					</ul>
+				</li>
 			</ul>
+			
 			<ul class="nav navbar-nav navbar-right">
 				<li sec:authorize="!isAuthenticated()">
 					<a href="/signup" th:text="#{signup.message}">

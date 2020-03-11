@@ -2,6 +2,8 @@ package com.uniovi.repositories;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,7 +14,11 @@ public interface UsersRepository extends CrudRepository<User, Long>{
 	User findByEmail(String email);
 	
 	@Query("SELECT r FROM User r WHERE (LOWER(r.name) LIKE LOWER('%'+?1+'%') OR LOWER(r.lastName) LIKE LOWER('%'+?1+'%'))")
-	List<User> searchByNameAndLastName(String searchText);
+	Page<User> searchByNameAndLastName(String searchText, Pageable pageable);
 	
-	List<User> findAll();
+	Page<User> findAll(Pageable pageable);
+	
+	@Query("SELECT r FROM User r WHERE (r.role='ROLE_STANDARDUSER' AND r.id<>?1)")
+	Page<User> searchStandardUsersButAuthenticated(Long userId, Pageable pageable);
+	
 }

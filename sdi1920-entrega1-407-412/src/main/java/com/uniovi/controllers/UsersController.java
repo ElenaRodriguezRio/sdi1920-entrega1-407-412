@@ -1,5 +1,6 @@
 package com.uniovi.controllers;
 
+import java.security.Principal;
 import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.*;
@@ -35,14 +36,23 @@ public class UsersController {
 	private SignUpFormValidator signUpFormValidator;
 
 	@RequestMapping("/user/list")
-	public String getListado(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
+	public String getListado(Model model, @RequestParam(value="", required=false) String searchText, Pageable pageable, Principal principal) {
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		if (searchText!=null && !searchText.isEmpty()) {
+			users = usersService.searchUsersByNameAndLastName(searchText, pageable);
+		} else {
+			users = usersService.getUsers(pageable, user);
+		}
+		model.addAttribute("usersList", users.getContent());
+		model.addAttribute("page", users);
 		return "user/list";
 	}
 
 	@RequestMapping(value = "/user/add")
 	public String getUser(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
+		model.addAttribute("rolesList", rolesService.getRoles());
 		return "user/add";
 	}
 

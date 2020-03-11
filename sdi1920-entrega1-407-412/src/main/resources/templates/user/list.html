@@ -28,12 +28,11 @@
 						<td th:text="${user.email}">alumno@gmail.com</td>
 						<td th:text="${user.name}">Nombre del alumno</td>
 						<td th:text="${user.lastName}">Apellidos del alumno</td>
-						<td><a th:href="${'/user/details/' + user.id}">detalles</a></td>
-						<td><a th:href="${'/user/delete/' + user.id}">eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		<footer th:replace="fragments/pagination"/>
 	</div>
 
 	<footer th:replace="fragments/footer" />
