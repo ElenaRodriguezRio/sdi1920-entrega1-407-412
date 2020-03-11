@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
@@ -12,8 +13,11 @@ import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.util.SeleniumUtils;
 
 import org.junit.runners.MethodSorters;
+
+import java.util.List;
 
 import org.junit.*;
 
@@ -213,6 +217,59 @@ public class Sdi1920entrega1407412ApplicationTests {
 		//Seguimos sin ver el link de logout
 		Assert.assertFalse(PO_View.isPresentElement(driver, By.id("logout_link")));
 	}
+	
+	// Caso de prueba 11a: Comprobación de sistema de paginación de listado de usuarios, autentificándose como usuario administrador
+	// En el sistema hay siete usuarios estándar + 1 que añadimos en previas validaciones y uno administrador, por lo que habrá dos páginas, una de ellas llena y la otra con 1 usuario
+	// Se visualizarán todos los usuarios estándar del sistema
+	@Test
+	public void PR11a() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		//Contamos el número de filas de notas
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 5);
+		//Comprobamos que tenemos sistema de paginación
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		//Nos vamos a la última página (2)
+		elementos.get(2).click();
+		//Comprobamos que hay dos usuarios
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 3);
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	// Caso de prueba 11b: Comprobación de sistema de paginación de listado de usuarios, autentificándose como usuario estándar
+	// En el sistema hay siete usuarios estándar + 1 que añadimos en previas validaciones, y uno administrador, por lo que habrá dos páginas, una de ellas llena y la otra con 1 usuario
+	// Se visualizarán todos los usuarios estándar del sistema menos el usuario autenticado en estos momentos
+	@Test
+	public void PR11b() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		//Contamos el número de filas de notas
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 5);
+		//Comprobamos que tenemos sistema de paginación
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		//Nos vamos a la última página (2)
+		elementos.get(2).click();
+		//Comprobamos que hay un solo usuario
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 2);
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
 
 	//// FIN DE CASOS DE PRUEBA ////
 

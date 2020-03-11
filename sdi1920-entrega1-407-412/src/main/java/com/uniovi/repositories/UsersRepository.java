@@ -1,6 +1,5 @@
 package com.uniovi.repositories;
 
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +19,6 @@ public interface UsersRepository extends CrudRepository<User, Long>{
 	
 	@Query("SELECT r FROM User r WHERE (r.role='ROLE_STANDARDUSER' AND r.id<>?1)")
 	Page<User> searchStandardUsersButAuthenticated(Long userId, Pageable pageable);
+	
 	
 }
