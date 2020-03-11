@@ -51,8 +51,8 @@ public class UsersService {
 		return usersRepository.findByEmail(email);
 	}
 	
-	public Page<User> searchUsersByNameAndLastName(String searchText, Pageable pageable) {
-		Page<User> users = usersRepository.searchByNameAndLastName(searchText, pageable);
+	public Page<User> searchUsersByEmailNameAndLastName(String searchText, Pageable pageable, User user) {
+		Page<User> users = usersRepository.searchByEmailNameAndLastName(searchText, user.getId(), pageable);
 		return users;
 	}
 
