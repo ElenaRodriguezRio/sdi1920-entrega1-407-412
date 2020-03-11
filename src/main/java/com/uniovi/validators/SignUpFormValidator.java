@@ -28,6 +28,9 @@ public class SignUpFormValidator implements Validator {
 		//El nombre y los apellidos son obligatorios
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "Error.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "Error.empty");
+		//La contraseña es obligatoria
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Error.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordConfirm", "Error.empty");
 
 		if (!user.getEmail().contains("@")) {
 			errors.rejectValue("email", "Error.signup.email.incorrectFormat");
