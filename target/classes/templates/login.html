@@ -6,17 +6,17 @@
 	<nav th:replace="fragments/nav" />
 
 	<div class="container">
-		<h2>Identifícate</h2>
+		<h2 th:text="#{login.message}">Identifícate</h2>
 		<form class="form-horizontal" method="post" action="/login">
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="username">Email:</label>
+				<label class="control-label col-sm-2" for="username" th:text="#{EmailTag.message}">Email:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="username"
 						placeholder="Ejemplo: profSDI@gmail.com" autocomplete="username"/>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="username">Password:</label>
+				<label class="control-label col-sm-2" for="username" th:text="#{passwordTag.message}">Password:</label>
 				<div class="col-sm-10">
 					<input type="password" class="form-control" name="password"
 						placeholder="Introduzca su Password" autocomplete="current-password"/>
@@ -24,7 +24,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-primary">Login</button>
+					<button type="submit" class="btn btn-primary" th:text="#{loginTag.message}">Login</button>
 				</div>
 			</div>
 			<input type="hidden" name="${_csrf.parameterName}"

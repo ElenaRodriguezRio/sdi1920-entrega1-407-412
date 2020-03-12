@@ -43,7 +43,7 @@
 					</a>
 				</li>
 				<li id="logout_link" sec:authorize="isAuthenticated()">
-					<a href="/logout"> 
+					<a href="/logout" th:text="#{logout.message}"> 
 						<span class="glyphicon glyphicon-log-out"></span> 
 						Desconectar
 					</a>
