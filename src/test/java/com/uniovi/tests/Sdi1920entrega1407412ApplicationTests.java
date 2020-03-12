@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_ListUsersView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
@@ -93,14 +94,17 @@ public class Sdi1920entrega1407412ApplicationTests {
 		// Rellenamos el formulario, dejando vacío el campo de email
 		PO_RegisterView.fillForm(driver, "", "Marta", "González", "holas", "hola");
 		PO_View.checkElement(driver, "text", "Regístrate como usuario");
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 
 		// Rellenamos el formulario, dejando vacío el campo de nombre
 		PO_RegisterView.fillForm(driver, "marta@uniovi.es", "", "González", "holas", "hola");
 		PO_View.checkElement(driver, "text", "Regístrate como usuario");
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 
 		// Rellenamos el formulario, dejando vacío el campo de apellido
 		PO_RegisterView.fillForm(driver, "marta@uniovi.es", "Marta", "", "holas", "hola");
 		PO_View.checkElement(driver, "text", "Regístrate como usuario");
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 
 	}
 
@@ -163,8 +167,6 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "", "");
-		// Comprobamos que entramos en la vista de listado de todos los usuarios del
-		// sistema
 		PO_View.checkElement(driver, "text", "Identifícate");
 		PO_View.checkElement(driver, "text", "Login");
 	}
@@ -218,7 +220,9 @@ public class Sdi1920entrega1407412ApplicationTests {
 		Assert.assertFalse(PO_View.isPresentElement(driver, By.id("logout_link")));
 	}
 	
-	// Caso de prueba 11a: Comprobación de sistema de paginación de listado de usuarios, autentificándose como usuario administrador
+	// Caso de prueba 11: Comprobaciones de sistema de paginación de listado de usuarios //
+	
+	// PR11a: Comprobación de sistema de paginación de listado de usuarios, autentificándose como usuario administrador
 	// En el sistema hay siete usuarios estándar + 1 que añadimos en previas validaciones y uno administrador, por lo que habrá dos páginas, una de ellas llena y la otra con 1 usuario
 	// Se visualizarán todos los usuarios estándar del sistema
 	@Test
@@ -244,7 +248,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
-	// Caso de prueba 11b: Comprobación de sistema de paginación de listado de usuarios, autentificándose como usuario estándar
+	// PR11b: Comprobación de sistema de paginación de listado de usuarios, autentificándose como usuario estándar
 	// En el sistema hay siete usuarios estándar + 1 que añadimos en previas validaciones, y uno administrador, por lo que habrá dos páginas, una de ellas llena y la otra con 1 usuario
 	// Se visualizarán todos los usuarios estándar del sistema menos el usuario autenticado en estos momentos
 	@Test
@@ -266,6 +270,112 @@ public class Sdi1920entrega1407412ApplicationTests {
 		//Comprobamos que hay un solo usuario
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 		Assert.assertTrue(elementos.size() == 2);
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	
+	// Casos de prueba 12-14: Pruebas de búsqueda en listado de usuarios //
+	
+	// PR12. Búsqueda con campo vacío -> listado completo
+	@Test
+	public void PR12() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		
+		//Introducimos un texto vacío en el formulario de búsqueda
+		PO_ListUsersView.fillSearchForm(driver, "");
+		//Comprobamos que se visualiza la lista completa de usuarios del sistema
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 5);
+		//Comprobamos que tenemos sistema de paginación
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		//Nos vamos a la última página (2)
+		elementos.get(2).click();
+		//Comprobamos que hay un solo usuario
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 2);
+		
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	// PR13. Búsqueda con texto no existente -> listado vacío
+	@Test
+	public void PR13() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		
+		//Introducimos un texto no existente en el formulario de búsqueda
+		PO_ListUsersView.fillSearchForm(driver, "agjdg");
+		//Comprobamos que se visualiza una lista vacía
+		Assert.assertFalse(PO_View.isPresentElement(driver, By.className("tr")));
+
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	// PR14. Búsqueda con texto específico (sí existe) -> listado usuarios en que el texto especificado es parte del nombre/apellidos/email
+	// Extra: realizar comprobaciones para nombre, apellido, email
+	@Test
+	public void PR14() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		
+		//Introducimos un texto válido en el formulario de búsqueda: nombre Marta -> la otra Marta es administradora, solo nos va a aparecer la que
+		//es standard user!!
+		PO_ListUsersView.fillSearchForm(driver, "Marta");
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 1);
+		//Introducimos un texto válido en el formulario de búsqueda: searchString Mar
+		PO_ListUsersView.fillSearchForm(driver, "Mar");
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 1);
+		
+		//Introducimos un texto válido en el formulario de búsqueda: apellido Antuña
+		PO_ListUsersView.fillSearchForm(driver, "Antuña");
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 2);
+		//Introducimos un texto válido en el formulario de búsqueda: searchString Ant
+		PO_ListUsersView.fillSearchForm(driver, "Ant");
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 2);
+		
+		//Introducimos un texto válido en el formulario de búsqueda: email completo carlos@uniovi.es
+		PO_ListUsersView.fillSearchForm(driver, "carlos@uniovi.es");
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 1);
+		//Introducimos un texto válido en el formulario de búsqueda: trozo email oo
+		PO_ListUsersView.fillSearchForm(driver, "oo");
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 1);
+		//Introducimos un texto válido en el formulario de búsqueda: searchString uniovi.es
+		PO_ListUsersView.fillSearchForm(driver, "uniovi.es");
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 5);
+		//Comprobamos que tenemos sistema de paginación
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		//Nos vamos a la última página (2)
+		elementos.get(2).click();
+		//Comprobamos que hay un solo usuario
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 2);
+		
 		//Ahora nos desconectamos
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}

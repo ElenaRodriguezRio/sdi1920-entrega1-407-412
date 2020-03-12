@@ -18,6 +18,7 @@ import com.uniovi.entities.*;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.LoginValidator;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
@@ -34,6 +35,7 @@ public class UsersController {
 
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
+	
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model, @RequestParam(value="", required=false) String searchText, Pageable pageable, Principal principal) {
@@ -110,7 +112,7 @@ public class UsersController {
 	public String login(Model model) {
 		return "login";
 	}
-
+	
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		return "home";
