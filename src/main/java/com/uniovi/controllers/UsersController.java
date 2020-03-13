@@ -67,43 +67,13 @@ public class UsersController {
 		return "user/listAdmin";
 	}
 
-	@RequestMapping(value = "/user/add")
-	public String getUser(Model model) {
-		model.addAttribute("rolesList", rolesService.getRoles());
-		return "user/add";
-	}
-
-	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
-	public String setUser(@ModelAttribute User user) {
-		usersService.addUser(user);
-		return "redirect:/user/list";
-	}
-
-	@RequestMapping("/user/details/{id}")
-	public String getDetail(Model model, @PathVariable Long id) {
-		model.addAttribute("user", usersService.getUser(id));
-		return "user/details";
-	}
 
 	@RequestMapping("/user/delete/{id}")
 	public String delete(@PathVariable Long id) {
 		usersService.deleteUser(id);
-		return "redirect:/user/list";
+		return "redirect:/user/listAdmin";
 	}
 
-	@RequestMapping(value = "/user/edit/{id}")
-	public String getEdit(Model model, @PathVariable Long id) {
-		User user = usersService.getUser(id);
-		model.addAttribute("user", user);
-		return "user/edit";
-	}
-
-	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
-	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-		user.setId(id);
-		usersService.addUser(user);
-		return "redirect:/user/details/" + id;
-	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {

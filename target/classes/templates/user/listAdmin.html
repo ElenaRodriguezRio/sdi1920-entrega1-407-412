@@ -29,10 +29,17 @@
 						<td th:text="${user.email}">alumno@gmail.com</td>
 						<td th:text="${user.name}">Nombre del alumno</td>
 						<td th:text="${user.lastName}">Apellidos del alumno</td>
+						<td><input type="checkbox" id="delete" name="delete"></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		<div class="form-group">        
+	      <div class="col-sm-offset-2 col-sm-10">
+	        <button id="deleteButton" type="submit" class="btn btn-primary" th:text="#{deleteButton.message}">Eliminar</button>
+	      </div>
+	      
+   		</div>
 	</div>
 
 	<footer th:replace="fragments/footer" />
