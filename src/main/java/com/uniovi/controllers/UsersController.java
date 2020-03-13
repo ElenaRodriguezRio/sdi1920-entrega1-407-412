@@ -51,6 +51,21 @@ public class UsersController {
 		model.addAttribute("page", users);
 		return "user/list";
 	}
+	
+	@RequestMapping("/user/listAdmin")
+	public String getListadoModoAdministrador(Model model, @RequestParam(value="", required=false) String searchText, Pageable pageable, Principal principal) {
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		if (searchText!=null && !searchText.isEmpty()) {
+			users = usersService.searchUsersByEmailNameAndLastName(searchText, pageable, user);
+		} else {
+			users = usersService.getUsers(pageable, user);
+		}
+		model.addAttribute("usersList", users.getContent());
+		model.addAttribute("page", users);
+		return "user/listAdmin";
+	}
 
 	@RequestMapping(value = "/user/add")
 	public String getUser(Model model) {

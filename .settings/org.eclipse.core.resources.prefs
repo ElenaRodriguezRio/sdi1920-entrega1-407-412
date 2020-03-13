@@ -9,5 +9,6 @@ encoding//src/main/resources/templates/fragments/pagination.html=UTF-8
 encoding//src/main/resources/templates/login.html=UTF-8
 encoding//src/main/resources/templates/signup.html=UTF-8
 encoding//src/main/resources/templates/user/list.html=UTF-8
+encoding//src/main/resources/templates/user/listAdmin.html=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8
