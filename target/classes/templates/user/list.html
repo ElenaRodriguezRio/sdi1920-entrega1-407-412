@@ -35,6 +35,7 @@
 						<td th:text="${user.email}">alumno@gmail.com</td>
 						<td th:text="${user.name}">Nombre del alumno</td>
 						<td th:text="${user.lastName}">Apellidos del alumno</td>
+						<td><a th:href="${'/user/addFriend/' + user.id}">Agregar amigo</a></td>
 					</tr>
 				</tbody>
 			</table>
