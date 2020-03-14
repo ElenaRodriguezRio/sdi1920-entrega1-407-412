@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.uniovi.entities.Friend;
-import com.uniovi.entities.FriendRequest;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.UsersRepository;
 

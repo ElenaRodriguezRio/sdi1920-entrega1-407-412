@@ -15,8 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.uniovi.entities.*;
-import com.uniovi.services.FriendRequestsService;
-import com.uniovi.services.FriendsService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -36,12 +34,6 @@ public class UsersController {
 
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
-	
-	@Autowired
-	private FriendRequestsService friendRequestsService;
-	
-	@Autowired
-	private FriendsService friendsService;
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model, @RequestParam(value="", required=false) String searchText, Pageable pageable, Principal principal) {

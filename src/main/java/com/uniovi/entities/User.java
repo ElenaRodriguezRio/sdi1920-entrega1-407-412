@@ -1,5 +1,7 @@
 package com.uniovi.entities;
 
+import java.util.HashMap;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,6 +20,8 @@ public class User {
 	@Transient
 	private String passwordConfirm;
 	
+	private HashMap<Long, String> friends;
+	
 	public User() {
 	}
 	
@@ -26,6 +30,7 @@ public class User {
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
+		friends= new HashMap<Long, String>();
 	}
 	
 	
