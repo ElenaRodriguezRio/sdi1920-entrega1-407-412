@@ -11,7 +11,7 @@
 		<form class="navbar-form" action="/user/list">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
-					placeholder="Buscar por nombre o apellido del usuario">
+					th:placeholder="#{placeholderSearch.message}">
 			</div>
 			<button id="search_button" type="submit" class="btn btn-default" th:text="#{search.message}">Buscar</button>
 		</form>

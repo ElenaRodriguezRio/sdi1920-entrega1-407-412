@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_IndexView;
 import com.uniovi.tests.pageobjects.PO_ListUsersView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_Properties;
@@ -380,6 +381,30 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
+	//PR20. Visualización de páginas en español e inglés (español-inglés-español), comprobación de cambio de etiquetas
+	//Páginas testeadas: página principal, listado usuarios, formulario registro, identificación
+	@Test
+	public void PR20() {
+		//Comprobamos el cambio de idioma en la página de inicio
+		PO_IndexView.checkChangeLanguage(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+		//Vamos a la vista para registrarnos en la aplicación
+		PO_IndexView.clickOption(driver, "signup", "class", "btn btn-primary");
+		//Comprobamos el cambio de idioma en la página de registro de usuario
+		PO_RegisterView.checkChangeLanguage(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+		//Vamos a la vista para identificarnos (login)
+		PO_LoginView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Comprobamos el cambio de idioma en la página de login
+		PO_LoginView.checkChangeLanguage(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+		// Rellenamos el formulario para poder acceder a la lista de usuarios
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		//Pinchamos en las opciones de usuarios para ir a la lista de usuarios
+		List<WebElement>  elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'users-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
+		elementos.get(0).click();
+		//Comprobamos el cambio de idioma en la página de listado de usuarios
+		PO_ListUsersView.checkChangeLanguage(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+	}
 
 	//// FIN DE CASOS DE PRUEBA ////
 
