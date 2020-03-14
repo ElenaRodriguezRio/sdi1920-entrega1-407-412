@@ -115,5 +115,10 @@ public class UsersController {
 	public String home(Model model) {
 		return "home";
 	}
+	
+	@RequestMapping(value = "/user/send/{id}", method = RequestMethod.GET)
+	public String send(Model model) {
+		return "redirect:/user/list";
+	}
 
 }
