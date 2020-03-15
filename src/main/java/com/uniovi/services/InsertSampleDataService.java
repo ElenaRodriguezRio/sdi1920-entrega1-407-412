@@ -51,7 +51,6 @@ public class InsertSampleDataService {
 		User user8 = new User("jose@uniovi.es", "José", "Fernández");
 		user8.setPassword("123456");
 		user8.setRole(rolesService.getRoles()[0]);
-
 		
 		usersService.addUser(user1);
 		usersService.addUser(user2);
@@ -61,6 +60,33 @@ public class InsertSampleDataService {
 		usersService.addUser(user6);
 		usersService.addUser(user7);
 		usersService.addUser(user8);
+		
+		user1 = usersService.getUserByEmail(user1.getEmail());
+		user2 = usersService.getUserByEmail(user2.getEmail());
+		user3 = usersService.getUserByEmail(user3.getEmail());
+		user4 = usersService.getUserByEmail(user4.getEmail());
+		user5 = usersService.getUserByEmail(user5.getEmail());
+		user6 = usersService.getUserByEmail(user6.getEmail());
+		user7 = usersService.getUserByEmail(user7.getEmail());
+		user8 = usersService.getUserByEmail(user8.getEmail());
+
+		usersService.acceptFriendRequest(user1,user2);
+		user1 = usersService.getUserByEmail(user1.getEmail());
+		user2 = usersService.getUserByEmail(user2.getEmail());
+		usersService.acceptFriendRequest(user1,user3);
+		user1 = usersService.getUserByEmail(user1.getEmail());
+		user3 = usersService.getUserByEmail(user3.getEmail());
+		usersService.acceptFriendRequest(user2,user3);
+		user2 = usersService.getUserByEmail(user2.getEmail());
+		user3 = usersService.getUserByEmail(user3.getEmail());
+		usersService.acceptFriendRequest(user3,user4);
+		user3 = usersService.getUserByEmail(user3.getEmail());
+		user4 = usersService.getUserByEmail(user4.getEmail());
+		
+		usersService.sendFriendRequest(user4,user1);
+		user4 = usersService.getUserByEmail(user4.getEmail());
+		user1 = usersService.getUserByEmail(user1.getEmail());
+		usersService.sendFriendRequest(user1,user4);
 		
 	}
 }

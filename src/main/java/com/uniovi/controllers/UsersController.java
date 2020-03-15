@@ -155,5 +155,21 @@ public class UsersController {
 		usersService.acceptFriendRequest(user1,user2);
 		return "redirect:/user/requestList";
 	}
+	
+	@RequestMapping("/user/friendList")
+	public String getFriendList(Model model, Pageable pageable, Principal principal) {
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		LinkedList<User> aux = new LinkedList<User>();
+		for(Long i:user.getFriends().keySet()) {
+			if(user.getFriends().get(i)) {
+				aux.add(usersService.getUser(i));
+			}
+		}
+		Page<User> users = new PageImpl<User>(aux,pageable, aux.size());
+		model.addAttribute("friendList", users.getContent());
+		model.addAttribute("page", users);
+		return "user/friendList";
+	}
 
 }
