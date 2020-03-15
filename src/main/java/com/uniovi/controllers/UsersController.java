@@ -126,7 +126,7 @@ public class UsersController {
 		try {
 			usersService.sendFriendRequest(user1,user2);
 		} catch(RuntimeException e) {
-			
+			System.out.println(e);
 		}
 		return "redirect:/user/list";
 	}
@@ -145,6 +145,15 @@ public class UsersController {
 		model.addAttribute("requestList", users.getContent());
 		model.addAttribute("page", users);
 		return "user/requestList";
+	}
+	
+	@RequestMapping(value = "/user/accept/{id}", method = RequestMethod.GET)
+	public String accept(Model model,@PathVariable Long id, Principal principal) {
+		String email = principal.getName();
+		User user1 = usersService.getUserByEmail(email);
+		User user2 = usersService.getUser(id);
+		usersService.acceptFriendRequest(user1,user2);
+		return "redirect:/user/requestList";
 	}
 
 }

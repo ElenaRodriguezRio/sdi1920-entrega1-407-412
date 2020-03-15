@@ -24,6 +24,7 @@
 				<tbody>
 					<tr th:each="user : ${requestList}">
 						<td th:text="${user.name}">Nombre</td>
+						<td><a th:href="${'/user/accept/' + user.id}">Aceptar Peticion</a></td>
 					</tr>
 				</tbody>
 			</table>
