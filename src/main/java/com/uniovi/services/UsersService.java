@@ -1,6 +1,8 @@
 package com.uniovi.services;
 
 import javax.annotation.PostConstruct;
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,6 +57,14 @@ public class UsersService {
 	public Page<User> searchUsersByEmailNameAndLastName(String searchText, Pageable pageable, User user) {
 		Page<User> users = usersRepository.searchByEmailNameAndLastName(searchText, user.getId(), pageable);
 		return users;
+	}
+	
+	public void sendFriendRequest(User user1, User user2) {
+		if(user2.getFriends().get(user1.getId())!=null) {
+			throw new RuntimeException("the request was already sent");
+		}
+		user2.getFriends().put(user1.getId(), false);
+		usersRepository.save(user2);
 	}
 
 }

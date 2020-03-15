@@ -20,7 +20,7 @@ public class User {
 	@Transient
 	private String passwordConfirm;
 	
-	private HashMap<Long, String> friends;
+	private HashMap<Long, Boolean> friends;
 	
 	public User() {
 	}
@@ -30,7 +30,7 @@ public class User {
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
-		friends= new HashMap<Long, String>();
+		friends= new HashMap<Long, Boolean>();
 	}
 	
 	
@@ -92,5 +92,13 @@ public class User {
 
 	public String getFullName() {
 		return this.name + " " + this.lastName; 
+	}
+
+	public HashMap<Long, Boolean> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(HashMap<Long, Boolean> friends) {
+		this.friends = friends;
 	}
 }

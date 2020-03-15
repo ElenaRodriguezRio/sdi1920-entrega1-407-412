@@ -61,10 +61,6 @@ public class InsertSampleDataService {
 		usersService.addUser(user6);
 		usersService.addUser(user7);
 		usersService.addUser(user8);
-		/*
-		friendsService.addFriend(new Friend(user1.getId(),user2.getId()));
-		friendsService.addFriend(new Friend(user2.getId(),user3.getId()));
-		friendsService.addFriend(new Friend(user2.getId(),user4.getId()));
-		friendRequestsService.addFriendRequest(new FriendRequest(user5.getId(),user6.getId()));*/
+		
 	}
 }

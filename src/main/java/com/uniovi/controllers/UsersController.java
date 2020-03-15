@@ -117,7 +117,15 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "/user/send/{id}", method = RequestMethod.GET)
-	public String send(Model model) {
+	public String send(Model model,@PathVariable Long id, Principal principal) {
+		String email = principal.getName();
+		User user1 = usersService.getUserByEmail(email);
+		User user2 = usersService.getUser(id);
+		try {
+			usersService.sendFriendRequest(user1,user2);
+		} catch(RuntimeException e) {
+			
+		}
 		return "redirect:/user/list";
 	}
 
