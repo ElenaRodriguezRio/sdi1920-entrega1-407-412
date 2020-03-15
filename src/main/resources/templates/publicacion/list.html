@@ -7,15 +7,15 @@
 	<nav th:replace="fragments/nav" />
 
 	<div class="container">
-		<h2>Publicaciones</h2>
-		<p>Mis publicaciones son las siguientes:</p>
+		<h2 th:text="#{publicacionesTitle.message}">Publicaciones</h2>
+		<p th:text="#{myPostsAre.message}">Mis publicaciones son las siguientes:</p>
 		<div class="table-responsive">
 			<table class="table table-hover" th:fragment="tablePosts"
 				id="tablePosts">
 				<thead>
 					<tr>
-						<th>Fecha</th>
-						<th>Título</th>
+						<th th:text="#{dateTag.message}">Fecha</th>
+						<th th:text="#{titleExample.message}">Título</th>
 					</tr>
 				</thead>
 				<tbody>
