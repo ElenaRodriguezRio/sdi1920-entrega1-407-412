@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.uniovi.tests.pageobjects.PO_CreatePostView;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_IndexView;
 import com.uniovi.tests.pageobjects.PO_ListUsersView;
@@ -404,6 +405,102 @@ public class Sdi1920entrega1407412ApplicationTests {
 		elementos.get(0).click();
 		//Comprobamos el cambio de idioma en la página de listado de usuarios
 		PO_ListUsersView.checkChangeLanguage(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+	}
+	
+	//PR24. Creación de una nueva publicación con datos válidos, comprobación de aparición de la misma en el listado de publicaciones del usuario
+	@Test
+	public void PR24() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkKey(driver, "usersInSystem.message", PO_Properties.getSPANISH());
+		//Pinchamos en las opciones de usuarios para ir a la lista de usuarios en modo administrador
+		List<WebElement>  elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'posts-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'publicacion/add')]");
+		elementos.get(0).click();
+		//Comprobación de que nos hallamos en la vista para crear publicaciones
+		PO_CreatePostView.checkKey(driver, "createPost.message", PO_Properties.getSPANISH());
+		PO_CreatePostView.fillForm(driver, "Mi primera publicación", "Mi primera publicación");
+		//Vamos a la lista de mis publicaciones a comprobar que se ha creado correctamente
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'posts-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'publicacion/list')]");
+		elementos.get(0).click();
+		//Comprobamos que hay sistema de paginación
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		//Nos vamos a la última página (mediante el botón Última)
+		elementos.get(elementos.size()-1).click();
+		//Comprobamos que hay una nueva publicación con el título "Mi primera publicación"
+		PO_View.checkElement(driver, "text", "Mi primera publicación");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	//PR25. Creación de una nueva publicación con datos inválidos (campo título vacío)
+	@Test
+	public void PR25() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkKey(driver, "usersInSystem.message", PO_Properties.getSPANISH());
+		//Pinchamos en las opciones de usuarios para ir a la lista de usuarios en modo administrador
+		List<WebElement>  elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'posts-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'publicacion/add')]");
+		elementos.get(0).click();
+		//Comprobación de que nos hallamos en la vista para crear publicaciones
+		PO_CreatePostView.checkKey(driver, "createPost.message", PO_Properties.getSPANISH());
+		PO_CreatePostView.fillForm(driver, "", "Mi primera publicación");
+		PO_CreatePostView.checkKey(driver, "createPost.message", PO_Properties.getSPANISH());
+		// Comprobamos el error de campo vacío
+		PO_CreatePostView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+	}
+	//PR25b. Creación de una nueva publicación con datos inválidos (campo texto vacío)
+	//Es de suponer que la publicación tendrá que tener asociado un texto de manera obligatoria
+	@Test
+	public void PR25b() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkKey(driver, "usersInSystem.message", PO_Properties.getSPANISH());
+		//Pinchamos en las opciones de usuarios para ir a la lista de usuarios en modo administrador
+		List<WebElement>  elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'posts-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'publicacion/add')]");
+		elementos.get(0).click();
+		//Comprobación de que nos hallamos en la vista para crear publicaciones
+		PO_CreatePostView.checkKey(driver, "createPost.message", PO_Properties.getSPANISH());
+		PO_CreatePostView.fillForm(driver, "Mi primera publicación", "");
+		PO_CreatePostView.checkKey(driver, "createPost.message", PO_Properties.getSPANISH());
+		// Comprobamos el error de campo vacío
+		PO_CreatePostView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+	}
+	
+	//PR26. Listado de todas mis publicaciones
+	@Test
+	public void PR26() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkKey(driver, "usersInSystem.message", PO_Properties.getSPANISH());
+		//Pinchamos en las opciones de usuarios para ir a la lista de usuarios en modo administrador
+		List<WebElement>  elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'posts-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'publicacion/list')]");
+		elementos.get(0).click();
 	}
 	
 	// PR31. Listado completo de usuarios - Modo administrador
