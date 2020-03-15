@@ -31,8 +31,8 @@ public class LoginValidator implements Validator {
 		if (usersService.getUserByEmail(user.getEmail()) == null) {
 			errors.rejectValue("email", "Error.signup.email.notExist");
 		}
-		//Las contraseñas coinciden
-		if (!user.getPasswordConfirm().equals(user.getPassword())) {
+		//Las contraseñas no coinciden
+		if (!usersService.getUserByEmail(user.getEmail()).getPassword().equals(user.getPassword())) {
 			errors.rejectValue("password", "Error.signup.passwordConfirm.coincidence");
 		}
 	}

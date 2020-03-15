@@ -405,6 +405,35 @@ public class Sdi1920entrega1407412ApplicationTests {
 		//Comprobamos el cambio de idioma en la página de listado de usuarios
 		PO_ListUsersView.checkChangeLanguage(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
 	}
+	
+	// PR31. Listado completo de usuarios - Modo administrador
+	@Test
+	public void PR31() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario como administrador
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		// Comprobamos que entramos en la vista de listado de todos los usuarios del
+		// sistema
+		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		//Pinchamos en las opciones de usuarios para ir a la lista de usuarios en modo administrador
+		List<WebElement>  elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'users-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/listAdmin')]");
+		elementos.get(0).click();
+		//Comprobamos que se visualiza la lista completa de usuarios del sistema
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 5);
+		//Comprobamos que tenemos sistema de paginación
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		//Nos vamos a la última página (2)
+		elementos.get(2).click();
+		//Comprobamos que hay un solo usuario
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 3);
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
 
 	//// FIN DE CASOS DE PRUEBA ////
 

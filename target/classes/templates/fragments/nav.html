@@ -19,12 +19,21 @@
 				<li id="users-menu" class="dropdown"
 					sec:authorize="isAuthenticated()"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#" th:text="#{userManagement.message}">
-						Gestión de Usuarios <span class="caret"></span></a>
+						Gestión de usuarios <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="/user/list" th:text="#{listUsers.message}">Ver Usuarios</a></li>
 						<li sec:authorize="hasRole('ROLE_ADMIN')">
 							<a href="/user/listAdmin" th:text="#{listUsersAdmin.message}">Ver Usuarios (Modo administrador)</a>
 						</li>
+					</ul>
+				</li>
+				<li id="posts-menu" class="dropdown"
+					sec:authorize="isAuthenticated()"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#" th:text="#{postsManagement.message}">
+						Gestión de publicaciones <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/publicacion/list" th:text="#{listPosts.message}">Mis publicaciones</a></li>
+						<li><a href="/publicacion/add" th:text="#{createPosts.message}">Crear publicaciones</a></li>
 					</ul>
 				</li>
 			</ul>

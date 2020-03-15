@@ -12,7 +12,9 @@
 				<label class="control-label col-sm-2" for="username" th:text="#{EmailTag.message}">Email:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="username"
-						placeholder="Ejemplo: profSDI@gmail.com" autocomplete="username"/>
+						placeholder="Ejemplo: profSDI@gmail.com" autocomplete="username"/><span
+						class="text-danger" th:if="*{email}"
+						th:error="*{email}">
 				</div>
 			</div>
 			<div class="form-group">
