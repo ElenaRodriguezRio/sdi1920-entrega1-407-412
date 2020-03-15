@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.uniovi.entities.Post;
+import com.uniovi.entities.Publicacion;
 import com.uniovi.services.PostsService;
 
 @Component
@@ -17,7 +17,7 @@ public class CreatePostValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Post.class.equals(clazz);
+		return Publicacion.class.equals(clazz);
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.uniovi.entities;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,12 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @Entity
 @Table(name = "publicacion")
-public class Post {
+public class Publicacion {
 
 	@Id
 	@GeneratedValue
@@ -30,11 +27,10 @@ public class Post {
 	
 	private Date date;
 	
-	public Post() {
-		
+	public Publicacion() {
 	}
 	
-	public Post(String titulo, String texto, User user) {
+	public Publicacion(String titulo, String texto, User user) {
 		super();
 		this.titulo = titulo;
 		this.texto = texto;

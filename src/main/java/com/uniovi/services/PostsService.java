@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.uniovi.entities.Post;
+import com.uniovi.entities.Publicacion;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.PostsRepository;
 
@@ -20,18 +20,18 @@ public class PostsService {
 	@Autowired
 	private PostsRepository postsRepository;
 	
-	public Page<Post> getMarks(Pageable pageable) {
-		Page<Post> posts = postsRepository.findAll(pageable);
+	public Page<Publicacion> getMarks(Pageable pageable) {
+		Page<Publicacion> posts = postsRepository.findAll(pageable);
 		return posts;
 	}
 	
 
-	public void addPost(Post post) {
+	public void addPost(Publicacion post) {
 		postsRepository.save(post);
 	}
 	
-	public Page<Post> getPostsForUser(Pageable pageable, User user) {
-		Page<Post> posts = new PageImpl<Post>(new LinkedList<Post>());
+	public Page<Publicacion> getPostsForUser(Pageable pageable, User user) {
+		Page<Publicacion> posts = new PageImpl<Publicacion>(new LinkedList<Publicacion>());
 		posts = postsRepository.findAllByUser(pageable, user);
 		return posts;
 	}
