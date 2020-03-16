@@ -14,8 +14,10 @@ public class PO_PrivateView extends PO_NavView {
 		PO_View.checkKey(driver, "usersInSystem.message", PO_Properties.getSPANISH());
 	}
 	
-	static public void logout(WebDriver driver) {
-		clickOption(driver, "logout", "text", "Identifícate"); 
+	static public void checkTextoHomePage(WebDriver driver, String email) {
+		PO_View.checkKey(driver, "welcome.message", PO_Properties.getSPANISH());
+		PO_View.checkKey(driver, "privatePartWeb.message", PO_Properties.getSPANISH());
+		PO_View.checkElement(driver, "text", email);
 	}
 	
 	

@@ -92,14 +92,16 @@ public class UsersController {
 		user.setRole(rolesService.getRoles()[0]); //registramos un usuario con rol de usuario estándar
 		usersService.addUser(user);
 		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
-		return "redirect:home";
+		return "redirect:/user/list";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model, String error) {
+	public String login(Model model, String error, String logout) {
 		if (error!=null) {
 			model.addAttribute("error", "");
 		}
+		if (logout != null)
+            model.addAttribute("message", "");
 		return "login";
 	}
 	

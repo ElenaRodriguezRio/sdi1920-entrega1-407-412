@@ -83,9 +83,8 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "antonio@gmail.com", "Antonio", "Antuña", "holas", "holas");
-		// Comprobamos que entramos en la sección privada
-		PO_View.checkElement(driver, "text", "Bienvenido a tu zona privada");
-		PO_View.checkElement(driver, "text", "antonio@gmail.com");
+		// Comprobamos que entramos en la vista de listado de usuarios
+		PO_ListUsersView.checkKey(driver, "usersInSystem.message", PO_Properties.getSPANISH());
 	}
 
 	// PR02. Registro de usuario con datos inválidos (email vacío, nombre vacío,
@@ -147,7 +146,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		// Comprobamos que entramos en la vista de listado de todos los usuarios del
 		// sistema
-		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		PO_ListUsersView.checkKey(driver, "usersInSystem.message", PO_Properties.getSPANISH());
 	}
 
 	// PR06. Inicio de sesión con datos válidos (usuario estándar)
@@ -159,7 +158,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
 		// Comprobamos que entramos en la vista de listado de todos los usuarios del
 		// sistema
-		PO_View.checkElement(driver, "text", "Los usuarios que actualmente figuran en el sistema son los siguientes:");
+		PO_ListUsersView.checkKey(driver, "usersInSystem.message", PO_Properties.getSPANISH());
 	}
 
 	// PR07. Inicio de sesión con datos inválidos (usuario estándar, campo email y
@@ -170,8 +169,9 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "", "");
-		PO_View.checkElement(driver, "text", "Identifícate");
-		PO_View.checkElement(driver, "text", "Login");
+		PO_LoginView.checkKey(driver, "Error.login.incorrectData", PO_Properties.getSPANISH());
+		PO_LoginView.checkKey(driver, "identifyYourself.message", PO_Properties.getSPANISH());
+		PO_LoginView.checkKey(driver, "loginTag.message", PO_Properties.getSPANISH());
 	}
 
 	// PR08. Inicio de sesión con datos inválidos (usuario estándar, email existente
@@ -182,10 +182,9 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "holas");
-		// Comprobamos que entramos en la vista de listado de todos los usuarios del
-		// sistema
-		PO_View.checkElement(driver, "text", "Identifícate");
-		PO_View.checkElement(driver, "text", "Login");
+		PO_LoginView.checkKey(driver, "Error.login.incorrectData", PO_Properties.getSPANISH());
+		PO_LoginView.checkKey(driver, "identifyYourself.message", PO_Properties.getSPANISH());
+		PO_LoginView.checkKey(driver, "loginTag.message", PO_Properties.getSPANISH());
 	}
 
 	// Casos de prueba 9-10: Desconexión de usuarios registrados //
@@ -236,7 +235,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 		Assert.assertTrue(elementos.size() == 3);
 		//Ahora nos desconectamos
-		PO_PrivateView.logout(driver);
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
 	// PR11b: Comprobación de sistema de paginación de listado de usuarios, autentificándose como usuario estándar
@@ -256,7 +255,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 		Assert.assertTrue(elementos.size() == 2);
 		//Ahora nos desconectamos
-		PO_PrivateView.logout(driver);
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
 	
@@ -280,7 +279,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		Assert.assertTrue(elementos.size() == 2);
 		
 		//Ahora nos desconectamos
-		PO_PrivateView.logout(driver);
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
 	// PR13. Búsqueda con texto no existente -> listado vacío
@@ -293,7 +292,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		Assert.assertFalse(PO_View.isPresentElement(driver, By.className("tr")));
 
 		//Ahora nos desconectamos
-		PO_PrivateView.logout(driver);
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
 	// PR14. Búsqueda con texto específico (sí existe) -> listado usuarios en que el texto especificado es parte del nombre/apellidos/email
@@ -342,7 +341,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		Assert.assertTrue(elementos.size() == 2);
 		
 		//Ahora nos desconectamos
-		PO_PrivateView.logout(driver);
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
 	//PR20. Visualización de páginas en español e inglés (español-inglés-español), comprobación de cambio de etiquetas
@@ -462,8 +461,18 @@ public class Sdi1920entrega1407412ApplicationTests {
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 		Assert.assertTrue(elementos.size() == 3);
 		//Ahora nos desconectamos
-		PO_PrivateView.logout(driver);
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
+	
+	//PR35. Visualización de home correcta
+	@Test
+	public void PR35() {
+		PO_PrivateView.loginGeneral(driver, "pedro99@uniovi.es", "123456");
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/home')]");
+		elementos.get(0).click();
+		PO_PrivateView.checkTextoHomePage(driver, "pedro99@uniovi.es");
+	}
+	
 
 	//// FIN DE CASOS DE PRUEBA ////
 
