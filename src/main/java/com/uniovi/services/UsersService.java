@@ -1,7 +1,6 @@
 package com.uniovi.services;
 
 import javax.annotation.PostConstruct;
-import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

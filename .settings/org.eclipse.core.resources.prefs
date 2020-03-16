@@ -1,7 +1,9 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=refs/remotes/origin/develop_elena
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
-<<<<<<< HEAD
 encoding//src/main/resources/messages.properties=UTF-8
 encoding//src/main/resources/messages_en.properties=UTF-8
 encoding//src/main/resources/messages_es.properties=UTF-8
@@ -13,8 +15,5 @@ encoding//src/main/resources/templates/publicacion/list.html=UTF-8
 encoding//src/main/resources/templates/signup.html=UTF-8
 encoding//src/main/resources/templates/user/list.html=UTF-8
 encoding//src/main/resources/templates/user/listAdmin.html=UTF-8
-=======
-encoding//src/main/resources/templates/user/add.html=UTF-8
->>>>>>> refs/remotes/origin/develop_elena
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8
