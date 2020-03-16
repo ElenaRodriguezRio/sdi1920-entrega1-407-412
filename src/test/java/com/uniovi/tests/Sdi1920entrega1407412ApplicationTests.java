@@ -414,6 +414,49 @@ public class Sdi1920entrega1407412ApplicationTests {
 		//Ahora nos desconectamos
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
+	
+	//[Prueba19] Mostrar el listado de amigos de un usuario. Comprobar que el listado contiene los amigos que deben ser.
+	
+	@Test
+	public void PR19() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario como irene
+		PO_LoginView.fillForm(driver, "irene@uniovi.es", "123456");
+		//vamos a la lista de amigos
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Amigos").get(0).click();
+		//comprovamos que alejandro es nuestro amigo
+		PO_View.checkElement(driver, "text", "alejandroo@uniovi.es");
+		PO_View.checkElement(driver, "text", "Alejandro");
+		PO_View.checkElement(driver, "text", "González");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como alejandro
+		PO_LoginView.fillForm(driver, "alejandroo@uniovi.es", "123456");
+		//vamos a la lista de amigos
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Amigos").get(0).click();
+		//comprovamos que irene es nuestra amiga
+		PO_View.checkElement(driver, "text", "irene@uniovi.es");
+		PO_View.checkElement(driver, "text", "Irene");
+		PO_View.checkElement(driver, "text", "Rodríguez");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como pedro
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		//vamos a la lista de amigos
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Amigos").get(0).click();
+		//comprovamos que marta es nuestra amiga
+		PO_View.checkElement(driver, "text", "marta@uniovi.es");
+		PO_View.checkElement(driver, "text", "Marta");
+		PO_View.checkElement(driver, "text", "Díaz");
+		//comprovamos que jose es nuestra amigo
+		PO_View.checkElement(driver, "text", "jose@uniovi.es");
+		PO_View.checkElement(driver, "text", "José");
+		PO_View.checkElement(driver, "text", "Fernández");
+	}
 
 	//// FIN DE CASOS DE PRUEBA ////
 

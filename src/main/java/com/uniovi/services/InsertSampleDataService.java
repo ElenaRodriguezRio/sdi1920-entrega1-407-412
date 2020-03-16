@@ -70,9 +70,9 @@ public class InsertSampleDataService {
 		user7 = usersService.getUserByEmail(user7.getEmail());
 		user8 = usersService.getUserByEmail(user8.getEmail());
 
-		usersService.acceptFriendRequest(user1,user2);
+		usersService.acceptFriendRequest(user1,user8);
 		user1 = usersService.getUserByEmail(user1.getEmail());
-		user2 = usersService.getUserByEmail(user2.getEmail());
+		user8 = usersService.getUserByEmail(user8.getEmail());
 		usersService.acceptFriendRequest(user1,user3);
 		user1 = usersService.getUserByEmail(user1.getEmail());
 		user3 = usersService.getUserByEmail(user3.getEmail());
