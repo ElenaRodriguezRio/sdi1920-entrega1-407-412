@@ -51,7 +51,7 @@
 					la Password:</label>
 				<div class="col-sm-10">
 					<input type="password" class="form-control" name="passwordConfirm"
-						placeholder="#{repeatPasswordExample.message}" /> <span class="text-danger"
+						th:placeholder="#{repeatPasswordExample.message}" /> <span class="text-danger"
 						th:if="${#fields.hasErrors('passwordConfirm')}"
 						th:errors="*{passwordConfirm}" />
 				</div>
