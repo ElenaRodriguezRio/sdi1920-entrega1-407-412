@@ -7,7 +7,7 @@
 	<nav th:replace="fragments/nav" />
 
 	<div class="container">
-		<h2>La peticion ya ha sido mandada</h2>
+		<h2 th:text="#{sendedError.message}">La peticion ya ha sido mandada</h2>
 	</div>
 
 	<footer th:replace="fragments/footer" />
