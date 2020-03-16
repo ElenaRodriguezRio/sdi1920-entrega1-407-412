@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: sdi1920-entrega1-407-412
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: maria
+Built-By: helen
 Implementation-Vendor-Id: com.uniovi
-Build-Jdk: 1.8.0_191
+Build-Jdk: 1.8.0_241
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/sdi1920-entrega1-407-412
 Created-By: Maven Integration for Eclipse

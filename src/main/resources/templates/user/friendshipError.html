@@ -7,7 +7,7 @@
 	<nav th:replace="fragments/nav" />
 
 	<div class="container">
-		<h2>Tú y este usuario ya sois amigos :)</h2>
+		<h2 th:text="#{friendshipError.message}">Tú y este usuario ya sois amigos :)</h2>
 	</div>
 
 	<footer th:replace="fragments/footer" />
