@@ -1,6 +1,7 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.*;
@@ -90,6 +91,7 @@ public class UsersController {
 			return "signup";
 		}
 		user.setRole(rolesService.getRoles()[0]); //registramos un usuario con rol de usuario estándar
+		user.setFriends(new HashMap<Long, Boolean>());
 		usersService.addUser(user);
 		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
 		return "redirect:/user/list";
@@ -108,6 +110,60 @@ public class UsersController {
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		return "home";
+	}
+	
+	@RequestMapping(value = "/user/send/{id}", method = RequestMethod.GET)
+	public String send(Model model,@PathVariable Long id, Principal principal) {
+		String email = principal.getName();
+		User user1 = usersService.getUserByEmail(email);
+		User user2 = usersService.getUser(id);
+		int response = usersService.sendFriendRequest(user1,user2);
+		if(response == 1)
+			return "/user/sendedRequestError";
+		if(response == 2)
+			return "/user/friendshipError";
+		return "redirect:/user/list";
+	}
+	
+	@RequestMapping("/user/requestList")
+	public String getRequestList(Model model, Pageable pageable, Principal principal) {
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		LinkedList<User> aux = new LinkedList<User>();
+		for(Long i:user.getFriends().keySet()) {
+			if(!user.getFriends().get(i)) {
+				aux.add(usersService.getUser(i));
+			}
+		}
+		Page<User> users = new PageImpl<User>(aux,pageable, aux.size());
+		model.addAttribute("requestList", users.getContent());
+		model.addAttribute("page", users);
+		return "user/requestList";
+	}
+	
+	@RequestMapping(value = "/user/accept/{id}", method = RequestMethod.GET)
+	public String accept(Model model,@PathVariable Long id, Principal principal) {
+		String email = principal.getName();
+		User user1 = usersService.getUserByEmail(email);
+		User user2 = usersService.getUser(id);
+		usersService.acceptFriendRequest(user1,user2);
+		return "redirect:/user/requestList";
+	}
+	
+	@RequestMapping("/user/friendList")
+	public String getFriendList(Model model, Pageable pageable, Principal principal) {
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		LinkedList<User> aux = new LinkedList<User>();
+		for(Long i:user.getFriends().keySet()) {
+			if(user.getFriends().get(i)) {
+				aux.add(usersService.getUser(i));
+			}
+		}
+		Page<User> users = new PageImpl<User>(aux,pageable, aux.size());
+		model.addAttribute("friendList", users.getContent());
+		model.addAttribute("page", users);
+		return "user/friendList";
 	}
 
 }

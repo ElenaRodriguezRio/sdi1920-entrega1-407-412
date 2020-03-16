@@ -25,6 +25,8 @@
 						<li sec:authorize="hasRole('ROLE_ADMIN')">
 							<a href="/user/listAdmin" th:text="#{listUsersAdmin.message}">Ver Usuarios (Modo administrador)</a>
 						</li>
+						<li><a href="/user/friendList" th:text="#{listFriends.message}" id="friends">Amigos</a></li>
+						<li><a href="/user/requestList" th:text="#{friendRequests.message}" id="requests">Peticiones de amistad</a></li>
 					</ul>
 				</li>
 				<li id="posts-menu" class="dropdown"

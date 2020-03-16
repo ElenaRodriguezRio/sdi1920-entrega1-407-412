@@ -22,6 +22,8 @@ import com.uniovi.tests.util.SeleniumUtils;
 
 import org.junit.runners.MethodSorters;
 
+import static org.junit.Assert.fail;
+
 import java.util.List;
 
 import org.junit.*;
@@ -33,7 +35,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\maria\\Desktop\\SDI 5\\PL-SDI-Sesion5-material\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\helen\\Desktop\\PL-SDI-material\\geckodriver024win64.exe";
 	// En MACOSX (Debe ser la versión 65.0.1
 	// y desactivar las actualizacioens automáticas): //static String PathFirefox65
 	// = "/Applications/Firefox.app/Contents/MacOS/firefox-bin"; //static String
@@ -260,7 +262,6 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
-	
 	// Casos de prueba 12-14: Pruebas de búsqueda en listado de usuarios //
 	
 	// PR12. Búsqueda con campo vacío -> listado completo
@@ -344,6 +345,190 @@ public class Sdi1920entrega1407412ApplicationTests {
 		
 		//Ahora nos desconectamos
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	//[Prueba15] Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario. 
+	//Comprobar que la solicitud de amistad aparece en el listado de invitaciones (punto siguiente).
+	
+	@Test
+	public void PR15() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario como alejandro
+		PO_LoginView.fillForm(driver, "alejandroo@uniovi.es", "123456");
+		//vamos a las peticiones de amistad
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Peticiones de Amistad").get(0).click();
+		//PO_NavView.clickOption(driver, "user/requestList", "id", "requests");
+		//comprobamos que pedro no nos ha mandado peticion
+		try {
+			PO_View.checkElement(driver,"text", "Pedro");
+			fail();
+		} catch(Exception e) {
+		}
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como pedro
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		//vamos a la lista de usuarios
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Usuarios").get(0).click();
+		//mandar peticion a alejandro
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(2).findElement(By.id("send")).click();
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como alejandro
+		PO_LoginView.fillForm(driver, "alejandroo@uniovi.es", "123456");
+		//vamos a la lista de peticiones
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Peticiones de Amistad").get(0).click();
+		//comprovamos que pedro no ha mandado una
+		PO_View.checkElement(driver, "text", "Pedro");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	
+	
+	//[Prueba16] Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario 
+	//al que ya le habíamos enviado la invitación previamente. No debería dejarnos enviar la invitación, 
+	//se podría ocultar el botón de enviar invitación o notificar que ya había sido enviada previamente.
+	
+	@Test
+	public void PR16() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "carlos@uniovi.es", "123456");
+		//vamos a la lista de usuarios
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Usuarios").get(0).click();
+		//mandar peticion a alejandro
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(3).findElement(By.id("send")).click();
+		//mandar otra peticion a alejandro
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(3).findElement(By.id("send")).click();
+		//comprovamos que es la pagina de error correspondiente
+		PO_View.checkElement(driver, "text", "La peticion ya ha sido mandada");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	
+	//[Prueba17] Mostrar el listado de invitaciones de amistad recibidas. 
+	//Comprobar con un listado que contenga varias invitaciones recibidas.
+	
+	@Test
+	public void PR17() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario como alejandro
+		PO_LoginView.fillForm(driver, "alejandroo@uniovi.es", "123456");
+		//vamos a la lista de usuarios
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Usuarios").get(0).click();
+		//mandar peticion a irene
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(4).findElement(By.id("send")).click();
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como pedro
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		//vamos a la lista de usuarios
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Usuarios").get(0).click();
+		//mandar peticion a irene
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(4).findElement(By.id("send")).click();
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como irene
+		PO_LoginView.fillForm(driver, "irene@uniovi.es", "123456");
+		//vamos a la lista de peticiones
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Peticiones de Amistad").get(0).click();
+		//comprovamos que pedro ha mandado una
+		PO_View.checkElement(driver, "text", "Pedro");
+		//comprovamos que alejandro ha mandado una
+		PO_View.checkElement(driver, "text", "Alejandro");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	//[Prueba18] Sobre el listado de invitaciones recibidas. Hacer click en el botón/enlace de una de ellas
+	//y comprobar que dicha solicitud desaparece del listado de invitaciones.
+	
+	@Test
+	public void PR18() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario como irene
+		PO_LoginView.fillForm(driver, "irene@uniovi.es", "123456");
+		//vamos a la lista de peticiones
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Peticiones de Amistad").get(0).click();
+		//comprovamos que pedro ha mandado una
+		PO_View.checkElement(driver, "text", "Pedro");
+		//comprovamos que alejandro ha mandado una
+		PO_View.checkElement(driver, "text", "Alejandro");
+		//aceptamos la de alejandro
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(1).findElement(By.id("accept")).click();
+		//comprobamos que la de pedro esta
+		PO_View.checkElement(driver, "text", "Pedro");
+		//comprobamos que la de alejandro no está
+		try {
+			PO_View.checkElement(driver,"text", "Alejandro");
+			fail();
+		} catch(Exception e) {
+		}
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	//[Prueba19] Mostrar el listado de amigos de un usuario. Comprobar que el listado contiene los amigos que deben ser.
+	
+	@Test
+	public void PR19() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario como irene
+		PO_LoginView.fillForm(driver, "irene@uniovi.es", "123456");
+		//vamos a la lista de amigos
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Amigos").get(0).click();
+		//comprovamos que alejandro es nuestro amigo
+		PO_View.checkElement(driver, "text", "alejandroo@uniovi.es");
+		PO_View.checkElement(driver, "text", "Alejandro");
+		PO_View.checkElement(driver, "text", "González");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como alejandro
+		PO_LoginView.fillForm(driver, "alejandroo@uniovi.es", "123456");
+		//vamos a la lista de amigos
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Amigos").get(0).click();
+		//comprovamos que irene es nuestra amiga
+		PO_View.checkElement(driver, "text", "irene@uniovi.es");
+		PO_View.checkElement(driver, "text", "Irene");
+		PO_View.checkElement(driver, "text", "Rodríguez");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como pedro
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		//vamos a la lista de amigos
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Amigos").get(0).click();
+		//comprovamos que marta es nuestra amiga
+		PO_View.checkElement(driver, "text", "marta@uniovi.es");
+		PO_View.checkElement(driver, "text", "Marta");
+		PO_View.checkElement(driver, "text", "Díaz");
+		//comprovamos que jose es nuestra amigo
+		PO_View.checkElement(driver, "text", "jose@uniovi.es");
+		PO_View.checkElement(driver, "text", "José");
+		PO_View.checkElement(driver, "text", "Fernández");
 	}
 	
 	//PR20. Visualización de páginas en español e inglés (español-inglés-español), comprobación de cambio de etiquetas
@@ -505,7 +690,6 @@ public class Sdi1920entrega1407412ApplicationTests {
 		elementos.get(0).click();
 		PO_PrivateView.checkTextoHomePage(driver, "pedro99@uniovi.es");
 	}
-	
 
 	//// FIN DE CASOS DE PRUEBA ////
 
