@@ -10,12 +10,15 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
 import org.junit.runners.MethodSorters;
+
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -266,6 +269,76 @@ public class Sdi1920entrega1407412ApplicationTests {
 		//Comprobamos que hay un solo usuario
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 		Assert.assertTrue(elementos.size() == 2);
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	
+	//[Prueba15] Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario. 
+	//Comprobar que la solicitud de amistad aparece en el listado de invitaciones (punto siguiente).
+	
+	@Test
+	public void PR15() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario como alejandro
+		PO_LoginView.fillForm(driver, "alejandroo@uniovi.es", "123456");
+		//vamos a las peticiones de amistad
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Peticiones de Amistad").get(0).click();
+		//PO_NavView.clickOption(driver, "user/requestList", "id", "requests");
+		//comprobamos que pedro no nos ha mandado peticion
+		try {
+			PO_View.checkElement(driver,"text", "Pedro");
+			fail();
+		} catch(Exception e) {
+		}
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como pedro
+		PO_LoginView.fillForm(driver, "pedro99@uniovi.es", "123456");
+		//vamos a la lista de usuarios
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Usuarios").get(0).click();
+		//mandar peticion a alejandro
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(2).findElement(By.id("send")).click();
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		// Rellenamos el formulario como alejandro
+		PO_LoginView.fillForm(driver, "alejandroo@uniovi.es", "123456");
+		//vamos a la lista de peticiones
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Peticiones de Amistad").get(0).click();
+		//comprovamos que pedro no ha mandado una
+		PO_View.checkElement(driver, "text", "Pedro");
+		//Ahora nos desconectamos
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	
+	
+	//[Prueba16] Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario 
+	//al que ya le habíamos enviado la invitación previamente. No debería dejarnos enviar la invitación, 
+	//se podría ocultar el botón de enviar invitación o notificar que ya había sido enviada previamente.
+	
+	@Test
+	public void PR16() {
+		// Vamos al formulario de login.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "carlos@uniovi.es", "123456");
+		//vamos a la lista de usuarios
+		PO_View.checkElement(driver,"text", "Gestión de usuarios").get(0).click();
+		PO_View.checkElement(driver,"text", "Ver Usuarios").get(0).click();
+		//mandar peticion a alejandro
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(3).findElement(By.id("send")).click();
+		//mandar otra peticion a alejandro
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		elementos.get(3).findElement(By.id("send")).click();
+		//comprovamos que es la pagina de error correspondiente
+		PO_View.checkElement(driver, "text", "La peticion ya ha sido mandada");
 		//Ahora nos desconectamos
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
