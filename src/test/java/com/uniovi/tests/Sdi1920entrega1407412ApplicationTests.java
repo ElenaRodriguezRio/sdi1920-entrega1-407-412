@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.http.HttpStatus;
 
 import com.uniovi.tests.pageobjects.PO_CreatePostView;
 import com.uniovi.tests.pageobjects.PO_HomeView;
@@ -40,6 +41,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 	// Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
+	
 
 	public static WebDriver getDriver(String PathFirefox, String Geckdriver) {
 		System.setProperty("webdriver.firefox.bin", PathFirefox);
@@ -369,6 +371,34 @@ public class Sdi1920entrega1407412ApplicationTests {
 		PO_ListUsersView.checkChangeLanguage(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
 	}
 	
+	//PR21. Intento (fallido) de acceso a listado de usuarios sin estar autenticado
+	@Test
+	public void PR21() {
+		//Intentamos navegar al listado de usuarios
+		driver.navigate().to(URL + "/user/list");
+		//Comprobamos que se nos ha redirigido a la página de login
+		PO_LoginView.checkTextoFormulario(driver, PO_Properties.getSPANISH());
+	}
+	
+	//PR22. Intento (fallido) de acceso a listado de publicaciones sin estar autenticado
+	@Test
+	public void PR22() {
+		//Intentamos navegar al listado de publicaciones
+		driver.navigate().to(URL + "/publicacion/list");
+		//Comprobamos que se nos ha redirigido a la página de login
+		PO_LoginView.checkTextoFormulario(driver, PO_Properties.getSPANISH());
+	}
+	
+	//PR23. Intento (fallido) de acceso a opción de usuario administrador siendo usuario estándar
+	@Test
+	public void PR23() {
+		PO_PrivateView.loginGeneral(driver, "pedro99@uniovi.es", "123456");
+		//Intentamos navegar al listado de publicaciones
+		driver.navigate().to(URL + "/user/listAdmin");
+		//Comprobamos que se nos ha dirigido a una página de error que muestra un Forbidden
+		PO_View.checkElement(driver, "text", "Forbidden");
+	}
+	
 	//PR24. Creación de una nueva publicación con datos válidos, comprobación de aparición de la misma en el listado de publicaciones del usuario
 	@Test
 	public void PR24() {
@@ -439,6 +469,9 @@ public class Sdi1920entrega1407412ApplicationTests {
 		elementos.get(0).click();
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'publicacion/list')]");
 		elementos.get(0).click();
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		Assert.assertTrue(elementos.size() == 1);
+		
 	}
 	
 	// PR31. Listado completo de usuarios - Modo administrador
@@ -457,7 +490,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		//Nos vamos a la última página (2)
 		elementos.get(2).click();
-		//Comprobamos que hay un solo usuario
+		//Comprobamos que hay tres usuarios
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 		Assert.assertTrue(elementos.size() == 3);
 		//Ahora nos desconectamos
