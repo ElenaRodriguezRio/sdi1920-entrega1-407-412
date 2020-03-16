@@ -123,11 +123,11 @@ public class UsersController {
 		String email = principal.getName();
 		User user1 = usersService.getUserByEmail(email);
 		User user2 = usersService.getUser(id);
-		try {
-			usersService.sendFriendRequest(user1,user2);
-		} catch(RuntimeException e) {
-			System.out.println(e);
-		}
+		int response = usersService.sendFriendRequest(user1,user2);
+		if(response == 1)
+			return "/user/sendedRequestError";
+		if(response == 2)
+			return "/user/friendshipError";
 		return "redirect:/user/list";
 	}
 	

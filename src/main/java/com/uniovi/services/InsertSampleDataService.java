@@ -87,6 +87,8 @@ public class InsertSampleDataService {
 		user4 = usersService.getUserByEmail(user4.getEmail());
 		user1 = usersService.getUserByEmail(user1.getEmail());
 		usersService.sendFriendRequest(user1,user4);
+		user4 = usersService.getUserByEmail(user4.getEmail());
+		user1 = usersService.getUserByEmail(user1.getEmail());
 		
 	}
 }

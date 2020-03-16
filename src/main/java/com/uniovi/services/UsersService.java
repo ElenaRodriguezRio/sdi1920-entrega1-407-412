@@ -60,22 +60,23 @@ public class UsersService {
 		return users;
 	}
 	
-	public void sendFriendRequest(User user1, User user2) {
+	public int sendFriendRequest(User user1, User user2) {
 		if(user2.getFriends().get(user1.getId())!=null) {
 			if(user2.getFriends().get(user1.getId())) {
-				throw new RuntimeException("the user is already your friend");
+				return 2;//the user is already your friend
 			}
-			throw new RuntimeException("the request was already sent");
+			return 1;//the request was already sent
 		}
 		
 		user2.getFriends().put(user1.getId(), false);
 		usersRepository.save(user2);
+		return 0;
 	}
 	
 	public void acceptFriendRequest(User user1, User user2) {
-		user2.getFriends().put(user1.getId(), true);
+		user2.getFriends().put(new Long(user1.getId()), new Boolean(true));
+		user1.getFriends().put(new Long(user2.getId()), new Boolean(true));
 		usersRepository.save(user2);
-		user1.getFriends().put(user2.getId(), true);
 		usersRepository.save(user1);
 	}
 

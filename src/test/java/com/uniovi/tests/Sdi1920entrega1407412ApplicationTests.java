@@ -28,7 +28,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\maria\\Desktop\\SDI 5\\PL-SDI-Sesion5-material\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\helen\\Desktop\\PL-SDI-material\\geckodriver024win64.exe";
 	// En MACOSX (Debe ser la versión 65.0.1
 	// y desactivar las actualizacioens automáticas): //static String PathFirefox65
 	// = "/Applications/Firefox.app/Contents/MacOS/firefox-bin"; //static String

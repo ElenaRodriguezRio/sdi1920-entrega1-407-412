@@ -30,7 +30,7 @@ public class User {
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
-		friends= new HashMap<Long, Boolean>();
+		friends= new HashMap<Long, Boolean>(100);
 	}
 	
 	
