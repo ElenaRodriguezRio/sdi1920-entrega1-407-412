@@ -581,7 +581,7 @@ public class Sdi1920entrega1407412ApplicationTests {
 		//Intentamos navegar al listado de publicaciones
 		driver.navigate().to(URL + "/user/listAdmin");
 		//Comprobamos que se nos ha dirigido a una página de error que muestra un Forbidden
-		PO_View.checkElement(driver, "text", "Forbidden");
+		PO_View.checkElement(driver,"h1","HTTP Status 403 – Forbidden");
 	}
 	
 	//PR24. Creación de una nueva publicación con datos válidos, comprobación de aparición de la misma en el listado de publicaciones del usuario

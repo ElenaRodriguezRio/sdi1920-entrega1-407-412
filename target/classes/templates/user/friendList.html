@@ -7,15 +7,15 @@
 	<nav th:replace="fragments/nav" />
 
 	<div class="container">
-		<h2>Amigos</h2>
-		<p>Los usuarios que actualmente figuran como sus amigos en el sistema son los siguientes:</p>
+		<h2 th:text="#{friendList.title}">Amigos</h2>
+		<p th:text="#{friendList.description}">Los usuarios que actualmente figuran como sus amigos en el sistema son los siguientes:</p>
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>Email</th>
-						<th>Nombre</th>
-						<th>Apellidos</th>
+						<th th:text="#{emailColumn.message}">Email</th>
+						<th th:text="#{nameColumn.message}">Nombre</th>
+						<th th:text="#{lastNameColumn.message}">Apellidos</th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
